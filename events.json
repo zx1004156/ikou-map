@@ -1,5 +1,15 @@
 [
   {
+    "id": "jidai-matsuri",
+    "name": "時代祭",
+    "date_start": "2026-10-22",
+    "date_end": "2026-10-22",
+    "place": "京都御所 → 平安神宮",
+    "lat": 35.016,
+    "lng": 135.7824,
+    "category": "祭り"
+  },
+  {
     "id": "aoi-matsuri",
     "name": "葵祭",
     "date_start": "2027-05-15",
@@ -20,13 +30,13 @@
     "category": "祭り"
   },
   {
-    "id": "jidai-matsuri",
-    "name": "時代祭",
-    "date_start": "2026-10-22",
-    "date_end": "2026-10-22",
-    "place": "京都御所 → 平安神宮",
-    "lat": 35.0160,
-    "lng": 135.7824,
-    "category": "祭り"
+    "id": "daimonji",
+    "name": "五山送り火",
+    "date_start": "2027-08-16",
+    "date_end": "2027-08-16",
+    "place": "如意ヶ嶽（大文字山）",
+    "lat": 35.0233,
+    "lng": 135.803,
+    "category": "行事"
   }
 ]
