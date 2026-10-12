@@ -1,0 +1,32 @@
+[
+  {
+    "id": "aoi-matsuri",
+    "name": "葵祭",
+    "date_start": "2027-05-15",
+    "date_end": "2027-05-15",
+    "place": "京都御所 → 下鴨神社 → 上賀茂神社",
+    "lat": 35.0254,
+    "lng": 135.7621,
+    "category": "祭り"
+  },
+  {
+    "id": "gion-matsuri",
+    "name": "祇園祭",
+    "date_start": "2027-07-01",
+    "date_end": "2027-07-31",
+    "place": "八坂神社",
+    "lat": 35.0037,
+    "lng": 135.7785,
+    "category": "祭り"
+  },
+  {
+    "id": "jidai-matsuri",
+    "name": "時代祭",
+    "date_start": "2026-10-22",
+    "date_end": "2026-10-22",
+    "place": "京都御所 → 平安神宮",
+    "lat": 35.0160,
+    "lng": 135.7824,
+    "category": "祭り"
+  }
+]
