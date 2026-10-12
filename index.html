@@ -9,40 +9,78 @@
   <style>
     body { margin: 0; }
     #map { height: 100vh; }
+    #filter {
+      position: absolute; top: 10px; right: 10px; z-index: 1000;
+      background: white; padding: 8px; border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 <body>
+  <div id="filter">
+    月份：
+    <select id="month">
+      <option value="all">全部</option>
+      <option value="1">1月</option><option value="2">2月</option>
+      <option value="3">3月</option><option value="4">4月</option>
+      <option value="5">5月</option><option value="6">6月</option>
+      <option value="7">7月</option><option value="8">8月</option>
+      <option value="9">9月</option><option value="10">10月</option>
+      <option value="11">11月</option><option value="12">12月</option>
+    </select>
+  </div>
   <div id="map"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
     const map = L.map('map').setView([35.0116, 135.7681], 13);
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap'
     }).addTo(map);
 
-    // 讀取 events.json
+    // 裝標記的圖層，方便一次清空
+    const markerLayer = L.layerGroup().addTo(map);
+    let allEvents = [];
+
+    // 畫標記：只畫符合月份的
+    function render(month) {
+      markerLayer.clearLayers();
+
+      allEvents.forEach(ev => {
+        const startM = new Date(ev.date_start).getMonth() + 1;
+        const endM   = new Date(ev.date_end).getMonth() + 1;
+
+        if (month !== 'all') {
+          const m = Number(month);
+          if (m < startM || m > endM) return; // 不在期間內就跳過
+        }
+
+        const box = document.createElement('div');
+        const title = document.createElement('b');
+        title.textContent = ev.name;
+        const date = document.createElement('div');
+        date.textContent = ev.date_start + ' ～ ' + ev.date_end;
+        const place = document.createElement('div');
+        place.textContent = ev.place;
+        box.append(title, date, place);
+
+        L.marker([ev.lat, ev.lng]).addTo(markerLayer).bindPopup(box);
+      });
+    }
+
     fetch('events.json')
       .then(res => res.json())
       .then(events => {
-        events.forEach(ev => {
-          // 建立彈出視窗內容（用 textContent，避免 XSS）
-          const box = document.createElement('div');
-          const title = document.createElement('b');
-          title.textContent = ev.name;
-          const date = document.createElement('div');
-          date.textContent = ev.date_start + ' ～ ' + ev.date_end;
-          const place = document.createElement('div');
-          place.textContent = ev.place;
-          box.append(title, date, place);
-
-          // 在座標放標記，點擊顯示內容
-          L.marker([ev.lat, ev.lng]).addTo(map).bindPopup(box);
-        });
+        allEvents = events;
+        render('all');
       })
       .catch(err => console.error('讀取失敗：', err));
+
+    // 下拉選單改變時重畫
+    document.getElementById('month').addEventListener('change', e => {
+      render(e.target.value);
+    });
   </script>
 </body>
 </html>
